@@ -1,0 +1,243 @@
+openapi: 3.0.1
+info:
+  description: This is a simple Cat Information Center Api
+  title: OpenAPI Cat Information Service
+  version: 1.0.0
+servers:
+- url: /
+tags:
+- description: Everything about your Cats
+  name: cat
+paths:
+  /cats:
+    get:
+      description: Retrieves the list of all cats
+      operationId: list_cats
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CatsResponse'
+          description: Successfully listed
+      summary: Retrieves the list of all cats
+      tags:
+      - cat
+      x-openapi-router-controller: openapi_server.controllers.cat_controller
+    post:
+      description: Creates a new cat in the store
+      operationId: add_cat
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Cat'
+        description: Cat object that needs to be added to the store
+        required: true
+      responses:
+        201:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cat'
+          description: Successfully created
+        400:
+          content: {}
+          description: Bad request
+      summary: Add a new cat to the store
+      tags:
+      - cat
+      x-openapi-router-controller: openapi_server.controllers.cat_controller
+  /cats/{cat_id}:
+    delete:
+      description: Delete a cat
+      operationId: delete_cat
+      parameters:
+      - description: Id of the cat desired to be deleted
+        in: path
+        name: cat_id
+        required: true
+        schema:
+          type: string
+      responses:
+        204:
+          content: {}
+          description: Succesful delete of cat
+        400:
+          content: {}
+          description: Bad request
+        404:
+          content: {}
+          description: Cat not found
+      summary: Delete a cat
+      tags:
+      - cat
+      x-openapi-router-controller: openapi_server.controllers.cat_controller
+    get:
+      description: Retrieve a single cat
+      operationId: get_cat
+      parameters:
+      - description: Id of the cat desired to be retrieved
+        in: path
+        name: cat_id
+        required: true
+        schema:
+          type: string
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cat'
+          description: Succesful retrieval of cat
+        400:
+          content: {}
+          description: Bad request
+        404:
+          content: {}
+          description: Cat not found
+      summary: Retrieve a single cat
+      tags:
+      - cat
+      x-openapi-router-controller: openapi_server.controllers.cat_controller
+    put:
+      operationId: update_cat
+      parameters:
+      - description: Id of the cat desired to be updated
+        in: path
+        name: cat_id
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Cat'
+        description: Cat object that needs to be added to the store
+        required: true
+      responses:
+        201:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cat'
+          description: Succesful update of cat
+        400:
+          content: {}
+          description: Bad request
+        404:
+          content: {}
+          description: Cat not found
+      summary: Update an existing cat
+      tags:
+      - cat
+      x-openapi-router-controller: openapi_server.controllers.cat_controller
+components:
+  schemas:
+    CatsResponse:
+      description: Response object contains all the cats
+      example:
+        cats:
+        - name: Garfield
+          id: id
+          breed: Abyssinian
+        - name: Garfield
+          id: id
+          breed: Abyssinian
+      properties:
+        cats:
+          description: List of cats
+          items:
+            $ref: '#/components/schemas/Cat'
+          type: array
+      type: object
+    Cat:
+      description: A cat
+      example:
+        name: Garfield
+        id: id
+        breed: Abyssinian
+      properties:
+        id:
+          type: string
+        name:
+          description: Name of the cat
+          example: Garfield
+          type: string
+        breed:
+          description: Breed of the cat
+          enum:
+          - Abyssinian
+          - Aegean
+          - American Bobtail
+          - American Curl
+          - American Shorthair
+          - American Wirehair
+          - Arabian Mau
+          - Australian Mist
+          - Balinese
+          - Bambino
+          - Bengal
+          - Birman
+          - Bombay
+          - British Longhair
+          - British Shorthair
+          - Burmese
+          - Burmilla
+          - California Spangled
+          - Chantilly-Tiffany
+          - Chartreux
+          - Chausie
+          - Cheetoh
+          - Colorpoint Shorthair
+          - Cornish Rex
+          - Cymric
+          - Cyprus
+          - Devon Rex
+          - Donskoy
+          - Dragon Li
+          - Egyptian Mau
+          - European Burmese
+          - Exotic Shorthair
+          - Havana Brown
+          - Himalayan
+          - Japanese Bobtail
+          - Javanese
+          - Khao Manee
+          - Korat
+          - Kurilian
+          - LaPerm
+          - Maine Coon
+          - Malayan
+          - Manx
+          - Munchkin
+          - Nebelung
+          - Norwegian Forest Cat
+          - Ocicat
+          - Oriental
+          - Persian
+          - Pixie-bob
+          - Ragamuffin
+          - Ragdoll
+          - Russian Blue
+          - Savannah
+          - Scottish Fold
+          - Selkirk Rex
+          - Siamese
+          - Siberian
+          - Singapura
+          - Snowshoe
+          - Somali
+          - Sphynx
+          - Tonkinese
+          - Toyger
+          - Turkish Angora
+          - Turkish Van
+          - York Chocolate
+          type: string
+      required:
+      - breed
+      - name
+      title: Cat
+      type: object

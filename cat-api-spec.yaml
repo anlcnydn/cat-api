@@ -1,0 +1,233 @@
+swagger: '2.0'
+info:
+  description: This is a simple Cat Information Center Api
+  version: 1.0.0
+  title: OpenAPI Cat Information Service
+consumes:
+- application/json
+produces:
+- application/json
+tags:
+  - name: cat
+    description: Everything about your Cats
+schemes:
+  - http
+paths:
+  /cats:
+    post:
+      tags:
+        - cat
+      summary: Add a new cat to the store
+      description: Creates a new cat in the store
+      operationId: addCat
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          description: Cat object that needs to be added to the store
+          required: true
+          schema:
+            $ref: '#/definitions/Cat'
+      responses:
+        '201':
+          description: Successfully created
+          schema:
+            $ref: '#/definitions/Cat'
+        '400':
+          description: Bad request
+    get:
+      tags:
+        - cat
+      summary: Retrieves the list of all cats
+      description: Retrieves the list of all cats
+      operationId: listCats
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Successfully listed
+          schema:
+            $ref: '#/definitions/CatsResponse'
+
+  /cats/{cat_id}:
+    get:
+      tags:
+        - cat
+      summary: Retrieve a single cat
+      description: Retrieve a single cat
+      operationId: getCat
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: cat_id
+          description: Id of the cat desired to be retrieved
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Succesful retrieval of cat
+          schema:
+            $ref: '#/definitions/Cat'
+        '400':
+          description: Bad request
+        '404':
+          description: Cat not found
+
+    put:
+      tags:
+        - cat
+      summary: Update an existing cat
+      description: ''
+      operationId: updateCat
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: cat_id
+          description: Id of the cat desired to be updated
+          required: true
+          type: string
+        - in: body
+          name: body
+          description: Cat object that needs to be added to the store
+          required: true
+          schema:
+            $ref: '#/definitions/Cat'
+      responses:
+        '201':
+          description: Succesful update of cat
+          schema:
+            $ref: '#/definitions/Cat'
+        '400':
+          description: Bad request
+        '404':
+          description: Cat not found
+
+    delete:
+      tags:
+        - cat
+      summary: Delete a cat
+      description: Delete a cat
+      operationId: deleteCat
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: cat_id
+          description: Id of the cat desired to be deleted
+          required: true
+          type: string
+      responses:
+        '204':
+          description: Succesful delete of cat
+        '400':
+          description: Bad request
+        '404':
+          description: Cat not found
+
+definitions:
+  Cat:
+    title: Cat
+    description: A cat
+    required:
+      - name
+      - breed
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+        description: Name of the cat
+        example: Garfield
+      breed:
+        type: string
+        description: Breed of the cat
+        enum:
+          - Abyssinian
+          - Aegean
+          - American Bobtail
+          - American Curl
+          - American Shorthair
+          - American Wirehair
+          - Arabian Mau
+          - Australian Mist
+          - Balinese
+          - Bambino
+          - Bengal
+          - Birman
+          - Bombay
+          - British Longhair
+          - British Shorthair
+          - Burmese
+          - Burmilla
+          - California Spangled
+          - Chantilly-Tiffany
+          - Chartreux
+          - Chausie
+          - Cheetoh
+          - Colorpoint Shorthair
+          - Cornish Rex
+          - Cymric
+          - Cyprus
+          - Devon Rex
+          - Donskoy
+          - Dragon Li
+          - Egyptian Mau
+          - European Burmese
+          - Exotic Shorthair
+          - Havana Brown
+          - Himalayan
+          - Japanese Bobtail
+          - Javanese
+          - Khao Manee
+          - Korat
+          - Kurilian
+          - LaPerm
+          - Maine Coon
+          - Malayan
+          - Manx
+          - Munchkin
+          - Nebelung
+          - Norwegian Forest Cat
+          - Ocicat
+          - Oriental
+          - Persian
+          - Pixie-bob
+          - Ragamuffin
+          - Ragdoll
+          - Russian Blue
+          - Savannah
+          - Scottish Fold
+          - Selkirk Rex
+          - Siamese
+          - Siberian
+          - Singapura
+          - Snowshoe
+          - Somali
+          - Sphynx
+          - Tonkinese
+          - Toyger
+          - Turkish Angora
+          - Turkish Van
+          - York Chocolate
+  CatsResponse:
+    type: object
+    description: Response object contains all the cats
+    properties:
+      cats:
+        type: array
+        items:
+          $ref: '#/definitions/Cat'
+        description: List of cats
